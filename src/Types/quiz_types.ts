@@ -14,6 +14,8 @@ export type QuestionType =    {
     question: string
     answer: string
     option: string[]
+    correct_answer: string
+    
 }
 export type questionPropsType = {
     question: string

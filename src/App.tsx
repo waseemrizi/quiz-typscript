@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { getQuizDetails } from './services/quiz_services';
-import { QuestionType } from './Types/quiz_types';
+import { QuestionType, Quiz } from './Types/quiz_types';
 import QuestionCard from './components/QuestionCard';
 
 function App() {
 
   let [quiz, setQuiz] = useState<QuestionType[]>([]);
   let [currentStep, setCurrentStep] = useState(0);
+  let [score, setScore] = useState(0);
 
   useEffect(() => {
 
@@ -23,13 +24,24 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<EventTarget>, userAns: string) => {
     e.preventDefault();
-    console.log(userAns);
+    // console.log(userAns);
+
+    const currentQustion: QuestionType = quiz[currentStep];
+
+    //console.log(currentQustion.correct_answer, userAns);
+
+    if (userAns === currentQustion.correct_answer) {
+      setScore(++score);
+    }
+
+
     if (currentStep !== quiz.length - 1)
       setCurrentStep(++currentStep);
 
     else {
-      alert("Quiz completed");
+      alert("Your score is: " + score + " Out of:  " + quiz.length);
       setCurrentStep(0);
+      setScore(0);
     }
   }
 
