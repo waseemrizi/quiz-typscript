@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { getQuizDetails } from './services/quiz_services';
-import { QuestionType, Quiz } from './Types/quiz_types';
+import { QuestionType } from './Types/quiz_types';
 import QuestionCard from './components/QuestionCard';
 
 function App() {
@@ -9,6 +9,8 @@ function App() {
   let [quiz, setQuiz] = useState<QuestionType[]>([]);
   let [currentStep, setCurrentStep] = useState(0);
   let [score, setScore] = useState(0);
+  let [showResult, setShowResult] = useState(false)
+
 
   useEffect(() => {
 
@@ -39,17 +41,27 @@ function App() {
       setCurrentStep(++currentStep);
 
     else {
-      alert("Your score is: " + score + " Out of:  " + quiz.length);
-      setCurrentStep(0);
-      setScore(0);
+      setShowResult(true);
     }
   }
 
   if (!quiz.length)
 
     return <h2>Loading.. . </h2>
+    if(showResult){
+      return (<div className="question-container result-container">
+        <h2>Result</h2>
+  
+        <p className="result-text">
+          You final score is 
+            <b> {score}</b> out of <b>{quiz.length}</b>
+        </p>
+      </div>)
+    }
   return (
     <div className="App">
+       <h1>Quiz App</h1>
+       
       <QuestionCard
         option={quiz[currentStep].option}
         question={quiz[currentStep].question}
